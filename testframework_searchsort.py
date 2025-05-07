@@ -36,6 +36,7 @@ def binary_search(arr, target):
     end = time.time()
     return end - start
 
+#experiment runner script
 def run_tests():
     sizes = [1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000]
     trials = 5
@@ -49,7 +50,7 @@ def run_tests():
             data = generate_list(size)
             target = random.choice(data)  # ensure target is present
             lin_total += linear_search(data, target)
-            bin_total += binary_search(data.copy(), target)  # copy to avoid sort modifying original
+            bin_total += binary_search(data.copy(), target)
         linear_times.append(lin_total / trials)
         binary_times.append(bin_total / trials)
         print(f"Size {size}: Linear Avg Time = {linear_times[-1]:.6f}s, Binary Avg Time = {binary_times[-1]:.6f}s")
