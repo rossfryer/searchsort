@@ -1,4 +1,4 @@
-def bubble_sort_trace_verbose(arr):
+def bubble_sort_trace(arr):
     print("==== Bubble Sort Trace ====")
     n = len(arr)
     data = arr.copy()
@@ -16,7 +16,7 @@ def bubble_sort_trace_verbose(arr):
     print()
 
 
-def selection_sort_trace_verbose(arr):
+def selection_sort_trace(arr):
     print("==== Selection Sort Trace ====")
     n = len(arr)
     data = arr.copy()
@@ -40,5 +40,5 @@ def selection_sort_trace_verbose(arr):
 sample_list_1 = [5, 2, 4, 1, 3]
 sample_list_2 = [5, 2, 4, 1, 3]
 
-bubble_sort_trace_verbose(sample_list_1)
-selection_sort_trace_verbose(sample_list_2)
+bubble_sort_trace(sample_list_1)
+selection_sort_trace(sample_list_2)
