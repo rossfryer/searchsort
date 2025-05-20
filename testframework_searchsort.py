@@ -1,7 +1,7 @@
 import random
 import time
 import matplotlib
-matplotlib.use('TkAgg')  # or 'QtAgg'
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 
@@ -36,34 +36,80 @@ def binary_search(arr, target):
     end = time.time()
     return end - start
 
-#experiment runner script
+def bubble_sort(arr):
+    start = time.time()
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    end = time.time()
+    return end - start
+
+def selection_sort(arr):
+    start = time.time()
+    n = len(arr)
+    for i in range(n):
+        min_idx = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    end = time.time()
+    return end - start
+
+def python_sort(arr):
+    start = time.time()
+    arr.sort()  # Uses Timsort
+    end = time.time()
+    return end - start
+
 def run_tests():
-    sizes = [1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000]
-    trials = 5
+    sizes = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
+    trials = 3
     linear_times = []
     binary_times = []
+    bubble_times = []
+    selection_times = []
+    python_sort_times = []
 
     for size in sizes:
-        lin_total = 0
-        bin_total = 0
+        lin_total = bin_total = bub_total = sel_total = py_total = 0
         for _ in range(trials):
             data = generate_list(size)
-            target = random.choice(data)  # ensure target is present
+            target = random.choice(data)
+
             lin_total += linear_search(data, target)
             bin_total += binary_search(data.copy(), target)
+            bub_total += bubble_sort(data.copy())
+            sel_total += selection_sort(data.copy())
+            py_total += python_sort(data.copy())
+
         linear_times.append(lin_total / trials)
         binary_times.append(bin_total / trials)
-        print(f"Size {size}: Linear Avg Time = {linear_times[-1]:.6f}s, Binary Avg Time = {binary_times[-1]:.6f}s")
+        bubble_times.append(bub_total / trials)
+        selection_times.append(sel_total / trials)
+        python_sort_times.append(py_total / trials)
+
+        print(f"Size {size}: Linear = {linear_times[-1]:.6f}s, "
+              f"Binary = {binary_times[-1]:.6f}s, "
+              f"Bubble = {bubble_times[-1]:.6f}s, "
+              f"Selection = {selection_times[-1]:.6f}s, "
+              f"Python Sort = {python_sort_times[-1]:.6f}s")
 
     # Plotting
-    plt.figure(figsize=(10, 6))
-    plt.plot(sizes, linear_times, label='Linear Search', marker='o')
-    plt.plot(sizes, binary_times, label='Binary Search', marker='o')
+    plt.figure(figsize=(12, 6))
+    #plt.plot(sizes, linear_times, label='Linear Search', marker='o')
+    #plt.plot(sizes, binary_times, label='Binary Search (includes sort)', marker='o')
+    plt.plot(sizes, bubble_times, label='Bubble Sort', marker='o')
+    plt.plot(sizes, selection_times, label='Selection Sort', marker='o')
+    plt.plot(sizes, python_sort_times, label='Python Built-in Sort', marker='o')
     plt.xlabel('List Size')
-    plt.ylabel('Average Search Time (seconds)')
-    plt.title('Search Algorithm Performance Comparison')
+    plt.ylabel('Average Time (seconds)')
+    plt.title('Algorithm Performance Comparison')
     plt.legend()
     plt.grid(True)
+    plt.tight_layout()
     plt.show()
 
 if __name__ == "__main__":
